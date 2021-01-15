@@ -32,14 +32,17 @@ func main() {
 
 		pri := payload[indexPriStart+1 : indexPriEnd]
 		timestamp := payload[indexPriEnd+1 : indexPriEnd+16]
+		// ホスト名、IPアドレスはないものとする
 
 		message := payload[indexPriEnd+17:]
 		indexTagSep := strings.Index(message, ":")
 		tag := message[:indexTagSep]
 		content := message[indexTagSep+2:]
 
-		if strings.Contains(content, "58:6b:14") || strings.Contains(content, "7c:04:d0") {
+		if strings.Contains(content, "58:6b:14") || strings.Contains(content, "7c:04:d0") || strings.Contains(content, "5c:f9:38") {
 			content += "(Apple)"
+		} else if strings.Contains(content, "b4:cd:27") {
+			content += "(Huawei)"
 		}
 
 		fmt.Printf("%s, addr: %s, pri: %s, tag: %-10s, content: %s\n", timestamp, addr.String(), pri, tag, content)
